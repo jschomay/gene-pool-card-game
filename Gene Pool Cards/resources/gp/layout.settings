@@ -1,0 +1,20 @@
+#
+# A settings file consists of a set of (key, value) pairs of setting names
+# and their associated values. Each pair appears on its own line and is
+# separated by an equals sign (=). Long lines can be split into multiple lines
+# by ending each line but the last with a backslash (\). The backslash can
+# also be used to escape special characters; for example, a key name can include
+# an equals sign if it is escaped (\=). If the first non-blank character in a
+# line is a number sign (#), then the entire line is treated as a comment and
+# will be ignored.
+#
+
+gp-cell-front-sheet-template = gp/front.png
+gp-cell-back-sheet-template = gp/back.jpg
+gp-cell-bg-region = 12,12,351,501
+gp-cell-cost-region = 18,15,46,46
+gp-cell-title-box-region = 24,37,327,60
+gp-cell-title-region = 32,37,327,60
+gp-cell-text-region = 24,396,327,106
+gp-cell-adaptation-region = 276,24,86,86
+gp-cell-adaptation-icon-region = 291,39,56,56
