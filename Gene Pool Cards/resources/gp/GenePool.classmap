@@ -65,4 +65,4 @@
 @cat-custom
   Cell Card = diy:gp/cell-diy.js | gp/icon.png
   Organism Card = diy:gp/organism-diy.js | gp/icon.png
-  #Mutation Card = diy:gp/mutation-diy.js | gp/icon.png
+  Mutation Card = diy:gp/mutation-diy.js | gp/icon.png

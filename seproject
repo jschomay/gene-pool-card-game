@@ -1,6 +1,6 @@
 # WARNING: If this file is deleted, Strange Eons will no longer
 # see this as a project/task folder!
-selected-members = :GenePool.seext
+selected-members = :README.md
 first-row = 0
 open-folders = :Gene Pool Cards:Gene Pool Cards/resources:Gene Pool Cards/resources/gp
 notes = 
