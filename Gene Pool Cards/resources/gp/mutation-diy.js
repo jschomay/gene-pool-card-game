@@ -123,9 +123,16 @@ function replaceIcons(text, pt) {
 	let cold = "\u2744\ufe0f";
 	let heat = "\ud83d\udd25";
 	let water = "\ud83d\udca7";
+	let photosynthetic = "\ud83c\udf3f";
 	return text.replace(cold, '<image res://gp/cold-icon.png ' + pt + 'pt>')
 				.replace(heat,'<image res://gp/heat-icon.png ' + pt + 'pt>')
-				.replace(water,'<image res://gp/water-icon.png ' + pt + 'pt>');
+				.replace(water,'<image res://gp/water-icon.png ' + pt + 'pt>')
+				.replace(photosynthetic,'<image res://gp/photosynthetic-icon.png ' + pt + 'pt>')
+				// twice because replace all (via regex) isn't working
+				.replace(cold,'<image res://gp/cold-icon.png ' + pt + 'pt>')
+				.replace(heat,'<image res://gp/heat-icon.png ' + pt + 'pt>')
+				.replace(water,'<image res://gp/water-icon.png ' + pt + 'pt>')
+				.replace(photosynthetic,'<image res://gp/photosynthetic-icon.png ' + pt + 'pt>');
 }
 
 function paintBack( g, diy, sheet ) {
