@@ -13,7 +13,7 @@ function create( diy ) {
 
 	// set the default name; DIY components have support for a name
 	// and comments built in---other attributes are added manually
-	diy.name = 'Cold-Adapted Organism';
+	diy.name = 'Virus';
 	diy.faceStyle = FaceStyle.PLAIN_BACK;
 	diy.frontTemplateKey = "gp-cell-front-sheet";
 	diy.backTemplateKey = "gp-cell-back-sheet";
@@ -22,39 +22,29 @@ function create( diy ) {
 	// by writing it into the component's private settings
 	// [this is the same as writing Patch.card( diy, 'Countdown', '1' );]
 	// $Countdown = '0';
-	$Cost = '3 \ud83d\udd25 cells + 3 any cells';
-	$Bonus = '-1 cost \ud83d\udd25 cells\n+1 draw\n+1 hand limit';
-	$Kind = 'cold';
+	$Effect = 'Play to discard an opponent\'s cell\n<i>-or-</i>\nPlay to discard any mutation\n(discard after use)';
+
 }
 
 function createInterface( diy, editor ) {
-	var nameField = textField();
-	var costField = textField();
-	var bonusField = textArea();
-	var kindField = listControl(["cold", "heat", "water", "resilient", "bacteria", "photosynthetic", "amoeba"]);
+	var effectField = textArea();
 
 	var panel = new FixedGrid( 2 );
-	panel.add( 'Name', nameField);
-	panel.add( 'Cost', costField );
-	panel.add( 'Bonus', bonusField );
-	panel.add( 'Kind', kindField );
+	panel.add( 'Effect', effectField );
 	panel.setTitle( 'Info' );
 
 	var bindings = new Bindings( editor, diy );
 	// Here 'Countdown' is the *name* of the setting key
-	bindings.add( 'Cost', costField, [0] );
-	bindings.add( 'Bonus', bonusField, [0] );
-	bindings.add( 'Kind', kindField, [0] );
+	bindings.add( 'Effect', effectField, [0] );
 
 	// tell the DIY which control will hold the component's name
 	// (the DIY has special support for a component's name and
 	// no binding is required)
-	diy.setNameField( nameField );
 	panel.addToEditor( editor, 'Content' );
 	bindings.bind();
 }
 
-var titleBox, costBox, textBox;
+var titleBox, textBox;
 
 function createFrontPainter( diy, sheet ) {
 	titleBox = markupBox(sheet);
@@ -66,19 +56,11 @@ function createFrontPainter( diy, sheet ) {
 	titleBox.setTextFitting(MarkupBox.FIT_BOTH);
 	
 	textBox = markupBox( sheet );
-	textBox.setAlignment(MarkupBox.LAYOUT_LEFT | MarkupBox.LAYOUT_MIDDLE);
+	textBox.setAlignment(MarkupBox.LAYOUT_CENTER | MarkupBox.LAYOUT_MIDDLE);
 	defaultStyle = textBox.getDefaultStyle();
 	defaultStyle.add(FAMILY, FAMILY_SANS_SERIF);
 	defaultStyle.add(SIZE, 8);
 	textBox.setTextFitting(MarkupBox.FIT_BOTH);
-	
-	costBox = markupBox( sheet );
-	costBox.setAlignment(MarkupBox.LAYOUT_CENTER | MarkupBox.LAYOUT_MIDDLE);
-	defaultStyle = costBox.getDefaultStyle();
-	defaultStyle.add(FAMILY, FAMILY_SANS_SERIF);
-	defaultStyle.add(SIZE, 10);
-	defaultStyle.add(WEIGHT, WEIGHT_HEAVY);
-	costBox.setTextFitting(MarkupBox.FIT_BOTH);
 }
 
 function createBackPainter( diy, sheet ) {
@@ -99,27 +81,24 @@ function paintFront( g, diy, sheet ) {
 	sheet.paintTemplateImage( g );
 
 
-	let bg = ImageUtils.get("gp/images/" + $Kind + "-organism.jpg");
+	let bg = ImageUtils.get("gp/images/virus.jpg");
 	sheet.paintImage(g, bg, $$gp-cell-bg-region.region);
 		
 	g.setPaint( Color.BLACK );
 	
 	drawBox(g, $$gp-cell-title-box-region.region);
 			
-	titleBox.markupText = '<i>'+ replaceIcons(diy.name, 9) + '</i>\n'
-	 	+ '<size 7>Cost: ' + replaceIcons($Cost, 7) + '</size>';
+	titleBox.markupText = '<i>' + diy.name + '!</i>';
 	
 	titleBox.draw(g, $$gp-cell-title-region.region);
 	
+		
 	drawBox(g, $$gp-cell-text-region.region);
 		
-	let bonus = "<b>Bonus:</b>\n" + $Bonus.trim() + "\n";
-	bonus = replaceIcons(bonus, 8);
-	textBox.markupText = bonus;
-	let bonusRegion = $$gp-cell-text-region.region;
-	bonusRegion.x += 12;
-	bonusRegion.width -= 24;
-	textBox.draw( g, bonusRegion );
+	let effect = "<b>Effect:</b>\n" + $Effect.trim() + "\n";
+	effect = replaceIcons(effect, 8);
+	textBox.markupText = effect;
+	textBox.draw( g, $$gp-cell-text-region.region );
 }
 
 function drawBox(g, region) {
@@ -165,9 +144,7 @@ function onClear() {
 	// you should reset all of of the card's attributes to
 	// a neutral state (the name and comments are cleared for you)
     // $Countdown = '1';
-    $Cost = '3 \ud83d\udd25 cells + 3 any cells';
-	$Bonus = '-1 cost \ud83d\udd25 cells\n+1 draw\n+1 hand limit';
-	$Kind = 'cold';
+	$Effect = '+1 draw';
 }
 
 // These can be used to perform special processing during open/save.

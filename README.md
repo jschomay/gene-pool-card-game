@@ -27,7 +27,7 @@ You may play any card from your hand to the table _face down_ as a "gene."
 
 ### Cells
 
-In order to pay a card from your hand to the table _face up_ as a "cell," you
+In order to play a card from your hand to the table _face up_ as a "cell," you
 must pay the cost shown on the cell card by discarding that many tabled genes
 (minus any cost discount bonuses).
 
