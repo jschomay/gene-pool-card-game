@@ -66,7 +66,7 @@ function createFrontPainter( diy, sheet ) {
 	titleBox.setTextFitting(MarkupBox.FIT_BOTH);
 	
 	textBox = markupBox( sheet );
-	textBox.setAlignment(MarkupBox.LAYOUT_LEFT | MarkupBox.LAYOUT_MIDDLE);
+	textBox.setAlignment(MarkupBox.LAYOUT_LEFT);
 	defaultStyle = textBox.getDefaultStyle();
 	defaultStyle.add(FAMILY, FAMILY_SANS_SERIF);
 	defaultStyle.add(SIZE, 8);
@@ -111,7 +111,10 @@ function paintFront( g, diy, sheet ) {
 	
 	titleBox.draw(g, $$gp-cell-title-region.region);
 	
-	drawBox(g, $$gp-cell-text-region.region);
+	var textRegion = $$gp-cell-text-region.region;
+	textRegion.y -= 24;
+	textRegion.height += 24;
+	drawBox(g, textRegion);
 		
 	let bonus = "<b>Bonus:</b>\n" + $Bonus.trim() + "\n";
 	bonus = replaceIcons(bonus, 8);
@@ -119,6 +122,7 @@ function paintFront( g, diy, sheet ) {
 	let bonusRegion = $$gp-cell-text-region.region;
 	bonusRegion.x += 12;
 	bonusRegion.width -= 24;
+	bonusRegion.y -= 12;
 	textBox.draw( g, bonusRegion );
 }
 
@@ -148,10 +152,11 @@ function replaceIcons(text, pt) {
 				.replace(heat,'<image res://gp/heat-icon.png ' + pt + 'pt>')
 				.replace(water,'<image res://gp/water-icon.png ' + pt + 'pt>')
 				.replace(photosynthetic,'<image res://gp/photosynthetic-icon.png ' + pt + 'pt>')
-				// twice because replace all (via regex) isn't working
+				// multiple times because replace all (via regex) isn't working
 				.replace(cold,'<image res://gp/cold-icon.png ' + pt + 'pt>')
 				.replace(heat,'<image res://gp/heat-icon.png ' + pt + 'pt>')
 				.replace(water,'<image res://gp/water-icon.png ' + pt + 'pt>')
+				.replace(photosynthetic,'<image res://gp/photosynthetic-icon.png ' + pt + 'pt>')
 				.replace(photosynthetic,'<image res://gp/photosynthetic-icon.png ' + pt + 'pt>');
 }
 
