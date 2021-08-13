@@ -17,15 +17,23 @@ function create( diy ) {
 	diy.faceStyle = FaceStyle.PLAIN_BACK;
 	diy.frontTemplateKey = "gp-cell-front-sheet";
 	diy.backTemplateKey = "gp-cell-back-sheet";
+	
+	diy.bleedMargin = 9;
 
 	// set the default value of the custom Countdown attribute
 	// by writing it into the component's private settings
 	// [this is the same as writing Patch.card( diy, 'Countdown', '1' );]
 	// $Countdown = '0';
 	$Cost = '4';
-	$Bonus = '-1 cost \u2744\ufe0f cells';
+	$Bonus = '\u2744\ufe0f cells cost 1 less gene';
 	$Adaptation = 'cold';
+	
+	let titleFontPath = "gp/fonts/Comfortaa-VariableFont_wght.ttf";
+	let bodyFontPath = "gp/fonts/WorkSans-Light.ttf";
+	ResourceKit.registerFontFamily(titleFontPath);
+	ResourceKit.registerFontFamily(bodyFontPath);
 }
+
 
 function createInterface( diy, editor ) {
 	var nameField = textField();
@@ -58,27 +66,28 @@ var titleBox, costBox, textBox;
 
 function createFrontPainter( diy, sheet ) {
 	titleBox = markupBox(sheet);
-	titleBox.setAlignment(MarkupBox.LAYOUT_LEFT | MarkupBox.LAYOUT_MIDDLE);
+	titleBox.setAlignment(MarkupBox.LAYOUT_CENTER | MarkupBox.LAYOUT_BOTTOM);
 	let defaultStyle = titleBox.getDefaultStyle();
-	defaultStyle.add(FAMILY, FAMILY_SANS_SERIF);
-	defaultStyle.add(SIZE, 10);
-	defaultStyle.add(WEIGHT, WEIGHT_LIGHT);
+	defaultStyle.add(FAMILY, "Comfortaa Regular");
+	defaultStyle.add(SIZE, 30);
+	defaultStyle.add(WEIGHT, WEIGHT_HEAVY);
 	titleBox.setTextFitting(MarkupBox.FIT_BOTH);
+		
+	costBox = markupBox( sheet );
+	costBox.setAlignment(MarkupBox.LAYOUT_CENTER | MarkupBox.LAYOUT_MIDDLE);
+	defaultStyle = costBox.getDefaultStyle();
+	defaultStyle.add(FAMILY, "Work Sans Light");
+	defaultStyle.add(SIZE, 21);
+	defaultStyle.add(WEIGHT, WEIGHT_LIGHT);
+	costBox.setTextFitting(MarkupBox.FIT_NONE);
 	
 	textBox = markupBox( sheet );
 	textBox.setAlignment(MarkupBox.LAYOUT_CENTER | MarkupBox.LAYOUT_MIDDLE);
 	defaultStyle = textBox.getDefaultStyle();
-	defaultStyle.add(FAMILY, FAMILY_SANS_SERIF);
-	defaultStyle.add(SIZE, 8);
-	textBox.setTextFitting(MarkupBox.FIT_BOTH);
-	
-	costBox = markupBox( sheet );
-	costBox.setAlignment(MarkupBox.LAYOUT_CENTER | MarkupBox.LAYOUT_MIDDLE);
-	defaultStyle = costBox.getDefaultStyle();
-	defaultStyle.add(FAMILY, FAMILY_SANS_SERIF);
-	defaultStyle.add(SIZE, 10);
+	defaultStyle.add(FAMILY, "Work Sans Light");
+	defaultStyle.add(SIZE, 16);
 	defaultStyle.add(WEIGHT, WEIGHT_HEAVY);
-	costBox.setTextFitting(MarkupBox.FIT_BOTH);
+	textBox.setTextFitting(MarkupBox.FIT_NONE);
 }
 
 function createBackPainter( diy, sheet ) {
@@ -98,66 +107,44 @@ function paintFront( g, diy, sheet ) {
 	// template key (we're using the default)
 	sheet.paintTemplateImage( g );
 
-
-	let bg = ImageUtils.get("gp/images/" + $Adaptation + "-cell.jpg");
+	let bg = ImageUtils.get("gp/images/cell-" + $Adaptation + ".png");
+	//bg = ImageUtils.get("gp/images/poker-card.png");
 	sheet.paintImage(g, bg, $$gp-cell-bg-region.region);
 		
-	g.setPaint( Color.BLACK );
-	
-	drawBox(g, $$gp-cell-title-box-region.region);
+	g.setPaint( Color.WHITE );
 			
-	titleBox.markupText = '<i>'+ replaceIcons(diy.name, 9) + '</i>\n'
-	 	+ '<size 7>Cost: ' + $Cost + ' genes</size>';
-	
+	titleBox.markupText =  diy.name;	
 	titleBox.draw(g, $$gp-cell-title-region.region);
 	
-	if($Adaptation !== "simple") {
-		drawCircle(g, $$gp-cell-adaptation-region.region);
-		let src = ImageUtils.get("gp/" + $Adaptation + "-icon.png");
-		sheet.paintImage(g, src, $$gp-cell-adaptation-icon-region.region);
-	}
+	costBox.markupText = 'Cost: ' + $Cost + ' genes';
+	costBox.draw(g, $$gp-cell-cost-region.region);
+	
+	let src = ImageUtils.get("gp/images/icon-" + $Adaptation + ".png");
+	sheet.paintImage(g, src, $$gp-cell-icon-region.region);
 		
-	if($Bonus.length > 0) {
-		drawBox(g, $$gp-cell-text-region.region);
-		
-		let bonus = "<b>Bonus:</b>\n" + $Bonus.trim() + "\n";
-		bonus = replaceIcons(bonus, 8);
+	if($Bonus.length > 0) {		
+		let bonus = replaceIcons($Bonus, 16);
 		textBox.markupText = bonus;
 		textBox.draw( g, $$gp-cell-text-region.region );
 	}
-}
-
-function drawBox(g, region) {
-	let {x,y, width, height} = region;
-	g.setPaint( Color.WHITE );
-	g.fillRect(x, y, width, height);
-	g.setPaint( Color.BLACK );
-	g.drawRect(x, y, width, height);
-}
-
-function drawCircle(g, region) {
-	let {x,y, width, height} = region;
-	g.setPaint( Color.WHITE );
-	g.fillArc(x, y, width, height, 0, 360);
-	g.setPaint( Color.BLACK );
-	g.drawArc(x, y, width, height, 0, 360);
-	g.drawArc(x+5, y+5, width-10, height-10, 0, 360);
 }
 
 function replaceIcons(text, pt) {
 	let cold = "\u2744\ufe0f";
 	let heat = "\ud83d\udd25";
 	let water = "\ud83d\udca7";
+	let gene = "genes";
 	let photosynthetic = "\ud83c\udf3f";
-	return text.replace(cold, '<image res://gp/cold-icon.png ' + pt + 'pt>')
-				.replace(heat,'<image res://gp/heat-icon.png ' + pt + 'pt>')
-				.replace(water,'<image res://gp/water-icon.png ' + pt + 'pt>')
-				.replace(photosynthetic,'<image res://gp/photosynthetic-icon.png ' + pt + 'pt>')
+	return text.replace(cold, '<image res://gp/images/icon-cold.png ' + pt + 'pt>')
+				.replace(heat,'<image res://gp/images/icon-heat.png ' + pt + 'pt>')
+				.replace(water,'<image res://gp/images/icon-water.png ' + pt + 'pt>')
+				.replace(photosynthetic,'<image res://gp/images/icon-photosynthetic.png ' + pt + 'pt>')
+								
 				// twice because replace all (via regex) isn't working
-				.replace(cold,'<image res://gp/cold-icon.png ' + pt + 'pt>')
-				.replace(heat,'<image res://gp/heat-icon.png ' + pt + 'pt>')
-				.replace(water,'<image res://gp/water-icon.png ' + pt + 'pt>')
-				.replace(photosynthetic,'<image res://gp/photosynthetic-icon.png ' + pt + 'pt>');
+				.replace(cold,'<image res://gp/images/icon-cold.png ' + pt + 'pt>')
+				.replace(heat,'<image res://gp/images/icon-heat.png ' + pt + 'pt>')
+				.replace(water,'<image res://gp/iimages/con-water.png ' + pt + 'pt>')
+				.replace(photosynthetic,'<image res://gp/images/icon-photosynthetic.png ' + pt + 'pt>');
 }
 
 function paintBack( g, diy, sheet ) {

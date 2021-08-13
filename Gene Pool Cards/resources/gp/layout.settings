@@ -9,12 +9,11 @@
 # will be ignored.
 #
 
-gp-cell-front-sheet-template = gp/front.png
-gp-cell-back-sheet-template = gp/back.jpg
-gp-cell-bg-region = 12,12,351,501
-gp-cell-cost-region = 18,15,46,46
-gp-cell-title-box-region = 24,37,327,60
-gp-cell-title-region = 32,37,327,60
-gp-cell-text-region = 24,396,327,106
-gp-cell-adaptation-region = 276,24,86,86
-gp-cell-adaptation-icon-region = 291,39,56,56
+gp-cell-front-sheet-template = gp/images/poker-card.png
+gp-cell-back-sheet-template = gp/images/back.png
+gp-cell-back-organism-sheet-template = gp/images/back-organism.png
+gp-cell-bg-region = 0,0,825,1125
+gp-cell-cost-region = 91,205,644,58
+gp-cell-title-region = 91,110,644,90
+gp-cell-text-region = 91,920,644,130
+gp-cell-icon-region = 369,810,86,86
