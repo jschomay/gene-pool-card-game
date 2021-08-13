@@ -34,12 +34,24 @@ function create( diy ) {
 	ResourceKit.registerFontFamily(bodyFontPath);
 }
 
+const cells = [
+	"cold",
+	"heat",
+	"water",
+	"simple",
+	"photosynthetic"
+];
 
 function createInterface( diy, editor ) {
 	var nameField = textField();
 	var costField = spinner( 0, 9 );
 	var bonusField = textArea();
-	var adaptationField = listControl(["cold", "heat", "water", "simple", "photosynthetic"]);
+	var adaptationField = listControl(
+		cells.concat([
+			"mutation",
+			"virus"
+		])
+	);
 
 	var panel = new FixedGrid( 2 );
 	panel.add( 'Name', nameField);
@@ -106,8 +118,12 @@ function paintFront( g, diy, sheet ) {
 	// paint the image that was specified as the face's
 	// template key (we're using the default)
 	sheet.paintTemplateImage( g );
+	
+	let isCell = cells.indexOf($Adaptation) >= 0;
 
-	let bg = ImageUtils.get("gp/images/cell-" + $Adaptation + ".png");
+	let prefix = isCell ? "cell-" : "";
+	let file = prefix + $Adaptation;
+	let bg = ImageUtils.get("gp/images/" + file + ".png");
 	//bg = ImageUtils.get("gp/images/poker-card.png");
 	sheet.paintImage(g, bg, $$gp-cell-bg-region.region);
 		
@@ -116,11 +132,16 @@ function paintFront( g, diy, sheet ) {
 	titleBox.markupText =  diy.name;	
 	titleBox.draw(g, $$gp-cell-title-region.region);
 	
-	costBox.markupText = 'Cost: ' + $Cost + ' genes';
+	let costText = "";
+	if(isCell) costText = 'Cost: ' + $Cost + ' genes';
+	if($Adaptation === "mutation") costText = "(Play immediately)";
+	costBox.markupText = costText;
 	costBox.draw(g, $$gp-cell-cost-region.region);
 	
-	let src = ImageUtils.get("gp/images/icon-" + $Adaptation + ".png");
-	sheet.paintImage(g, src, $$gp-cell-icon-region.region);
+	if(isCell) {
+		let src = ImageUtils.get("gp/images/icon-" + $Adaptation + ".png");
+		sheet.paintImage(g, src, $$gp-cell-icon-region.region);
+	}
 		
 	if($Bonus.length > 0) {		
 		let bonus = replaceIcons($Bonus, 16);
