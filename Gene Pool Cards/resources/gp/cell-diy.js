@@ -81,7 +81,7 @@ function createFrontPainter( diy, sheet ) {
 	titleBox.setAlignment(MarkupBox.LAYOUT_CENTER | MarkupBox.LAYOUT_BOTTOM);
 	let defaultStyle = titleBox.getDefaultStyle();
 	defaultStyle.add(FAMILY, "Comfortaa Regular");
-	defaultStyle.add(SIZE, 30);
+	defaultStyle.add(SIZE, 14);
 	defaultStyle.add(WEIGHT, WEIGHT_HEAVY);
 	titleBox.setTextFitting(MarkupBox.FIT_BOTH);
 		
@@ -89,7 +89,7 @@ function createFrontPainter( diy, sheet ) {
 	costBox.setAlignment(MarkupBox.LAYOUT_CENTER | MarkupBox.LAYOUT_MIDDLE);
 	defaultStyle = costBox.getDefaultStyle();
 	defaultStyle.add(FAMILY, "Work Sans Light");
-	defaultStyle.add(SIZE, 21);
+	defaultStyle.add(SIZE, 10);
 	defaultStyle.add(WEIGHT, WEIGHT_LIGHT);
 	costBox.setTextFitting(MarkupBox.FIT_NONE);
 	
@@ -97,7 +97,7 @@ function createFrontPainter( diy, sheet ) {
 	textBox.setAlignment(MarkupBox.LAYOUT_CENTER | MarkupBox.LAYOUT_MIDDLE);
 	defaultStyle = textBox.getDefaultStyle();
 	defaultStyle.add(FAMILY, "Work Sans Light");
-	defaultStyle.add(SIZE, 18);
+	defaultStyle.add(SIZE, 9);
 	defaultStyle.add(WEIGHT, WEIGHT_HEAVY);
 	textBox.setTextFitting(MarkupBox.FIT_NONE);
 }
@@ -141,7 +141,7 @@ function paintFront( g, diy, sheet ) {
 	if(isCell) drawIcon(sheet, g, diy.name, $Adaptation);
 		
 	if($Bonus.length > 0) {		
-		let bonus = replaceIcons($Bonus, 14);
+		let bonus = replaceIcons($Bonus, 7);
 		textBox.markupText = bonus;
 		textBox.draw( g, $$gp-cell-text-region.region );
 	}
@@ -175,14 +175,14 @@ function replaceIcons(text, pt) {
 				// repeated because replace all (via regex) isn't working
 				.replace(cold,'<image res://gp/images/icon-cold.png ' + pt + 'pt>')
 				.replace(heat,'<image res://gp/images/icon-heat.png ' + pt + 'pt>')
-				.replace(water,'<image res://gp/iimages/con-water.png ' + pt + 'pt>')
+				.replace(water,'<image res://gp/images/icon-water.png ' + pt + 'pt>')
 				.replace(simple,'<image res://gp/images/icon-simple.png ' + pt + 'pt>')
 				.replace(photosynthetic,'<image res://gp/images/icon-photosynthetic.png ' + pt + 'pt>')
 				
 				// repeated because replace all (via regex) isn't working
 				.replace(cold,'<image res://gp/images/icon-cold.png ' + pt + 'pt>')
 				.replace(heat,'<image res://gp/images/icon-heat.png ' + pt + 'pt>')
-				.replace(water,'<image res://gp/iimages/con-water.png ' + pt + 'pt>')
+				.replace(water,'<image res://gp/images/icon-water.png ' + pt + 'pt>')
 				.replace(simple,'<image res://gp/images/icon-simple.png ' + pt + 'pt>')
 				.replace(photosynthetic,'<image res://gp/images/icon-photosynthetic.png ' + pt + 'pt>');
 }
