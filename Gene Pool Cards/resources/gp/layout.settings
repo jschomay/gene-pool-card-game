@@ -11,9 +11,13 @@
 
 gp-cell-front-sheet-template = gp/images/poker-card.png
 gp-cell-back-sheet-template = gp/images/back.png
-gp-cell-back-organism-sheet-template = gp/images/back-organism.png
 gp-cell-bg-region = 0,0,825,1125
 gp-cell-cost-region = 91,205,644,58
 gp-cell-title-region = 91,110,644,90
 gp-cell-text-region = 91,920,644,130
 gp-cell-icon-region = 369,810,86,86
+
+gp-organism-back-sheet-template = gp/images/back-organism.png
+gp-organism-title-region = 91,92,644,90
+gp-organism-cost-region = 91,185,644,58
+gp-organism-text-region = 91,787,644,264
