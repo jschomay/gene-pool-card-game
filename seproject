@@ -1,7 +1,7 @@
 # WARNING: If this file is deleted, Strange Eons will no longer
 # see this as a project/task folder!
 selected-members = :Gene Pool Cards/resources/gp/organism-diy.js
-first-row = 15
+first-row = 14
 open-folders = :Gene Pool Cards:Gene Pool Cards/resources:Gene Pool \
     Cards/resources/gp:Gene Pool Cards/resources/gp/fonts:Gene Pool \
     Cards/resources/gp/images

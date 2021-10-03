@@ -129,26 +129,37 @@ function paintFront( g, diy, sheet ) {
 		
 	g.setPaint( Color.WHITE );
 			
-	titleBox.markupText =  diy.name;	
+
+	let title = diy.name;
+	let costText = "";
+	let bonus = $Bonus;
+	
+	if($Adaptation === "mutation" ) {
+		title = diy.name.split(" ")[0];
+		costText = "(Play immediately)";
+		bonus = $Bonus;
+		drawIcon(sheet, g, diy.name, diy.name.split(" ")[1]);
+	}
+	
+	if(isCell) costText = 'Cost: ' + $Cost + ' genes';
+
+	titleBox.markupText =  title;	
 	titleBox.draw(g, $$gp-cell-title-region.region);
 	
-	let costText = "";
-	if(isCell) costText = 'Cost: ' + $Cost + ' genes';
-	if($Adaptation === "mutation") costText = "(Play immediately)";
-	costBox.markupText = costText;
+	costBox.markupText = replaceIcons(costText, 9);
 	costBox.draw(g, $$gp-cell-cost-region.region);
 	
 	if(isCell) drawIcon(sheet, g, diy.name, $Adaptation);
-		
+
 	if($Bonus.length > 0) {		
-		let bonus = replaceIcons($Bonus, 7);
+		bonus = replaceIcons(bonus, 7);
 		textBox.markupText = bonus;
 		textBox.draw( g, $$gp-cell-text-region.region );
 	}
 }
 
 function drawIcon(sheet, g, name, icon) {
-	let src = ImageUtils.get("gp/images/icon-" + $Adaptation + ".png");
+	let src = ImageUtils.get("gp/images/icon-" + icon + ".png");
 	let iconRegion = $$gp-cell-icon-region.region;
 	if(name.substr(-2) === "x2") {
 		iconRegion.x -= 60;
